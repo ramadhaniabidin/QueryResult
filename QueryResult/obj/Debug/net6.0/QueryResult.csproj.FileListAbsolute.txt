@@ -1,0 +1,15 @@
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\bin\Debug\net6.0\QueryResult.exe
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\bin\Debug\net6.0\QueryResult.deps.json
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\bin\Debug\net6.0\QueryResult.runtimeconfig.json
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\bin\Debug\net6.0\QueryResult.dll
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\bin\Debug\net6.0\QueryResult.pdb
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\obj\Debug\net6.0\QueryResult.csproj.AssemblyReference.cache
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\obj\Debug\net6.0\QueryResult.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\obj\Debug\net6.0\QueryResult.AssemblyInfoInputs.cache
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\obj\Debug\net6.0\QueryResult.AssemblyInfo.cs
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\obj\Debug\net6.0\QueryResult.csproj.CoreCompileInputs.cache
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\obj\Debug\net6.0\QueryResult.dll
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\obj\Debug\net6.0\refint\QueryResult.dll
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\obj\Debug\net6.0\QueryResult.pdb
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\obj\Debug\net6.0\QueryResult.genruntimeconfig.cache
+C:\Users\ramad\OneDrive\Documents\Belajar\Console App\QueryResult\QueryResult\obj\Debug\net6.0\ref\QueryResult.dll
