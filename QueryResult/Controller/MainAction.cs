@@ -149,7 +149,6 @@ namespace QueryResult.Controller
                 throw new Exception(ex.Message);
             }
         }
-
         public string GetStagingTableName(string listName)
         {
             string output = "";
@@ -176,7 +175,6 @@ namespace QueryResult.Controller
                 throw new Exception(ex.Message);
             }
         }
-
         public List<string> GetStagingColumns(string listName)
         {
             
@@ -209,7 +207,6 @@ namespace QueryResult.Controller
                 throw new Exception(ex.Message);
             }
         }
-
         public void GetDataFromStaging1(string listName)
         {
             string sqlQuery = string.Empty;
@@ -267,33 +264,45 @@ namespace QueryResult.Controller
                 #endregion
 
                 #region This is the code I want
-                //for (int i = 0; i < listData.Count; i++)
-                //{
-                //    var dic = (IDictionary<string, object>)listData[i];
-                //    List<string> conditions = new List<string>();
+                List<string> QueryList = new();
+                for (int i = 0; i < listData.Count; i++)
+                {
+                    var dic = (IDictionary<string, object>)listData[i];
+                    List<string> conditions = new List<string>();
 
-                //    for (int j = 0; j < stagingColumns.Count; j++)
-                //    {
-                //        // Check if the value is a string, and if so, enclose it in single quotes
-                //        object value = (dic[stagingColumns[j]] is string ? $"'{dic[stagingColumns[j]]}'" : dic[stagingColumns[j]]);
-                //        conditions.Add($"{stagingColumns[j]} = {value}");
-                //    }
+                    for (int j = 0; j < keys.Count; j++)
+                    {
+                        object value = new();
+                        // Check if the value is a string, and if so, enclose it in single quotes
+                        //object value = (dic[keys[j]] is string ? $"'{dic[keys[j]]}'" : dic[keys[j]]);
 
-                //    // Join the conditions using "AND" and build the final query
-                //    checkQuery = $"SELECT TOP 1 {string.Join(", ", stagingColumns)} FROM {dbTableName} WHERE {string.Join(" AND ", conditions)}";
-                //    QueryList.Add( checkQuery );
-                //    //Console.Write($"{checkQuery}\n");
-                //}
+                        if ((dic[keys[j]] is string) || (dic[keys[j]] is DateTime))
+                        {
+                            value = ($"'{dic[keys[j]]}'");
+                        }
+                        else
+                        {
+                            value = dic[keys[j]];
+                        }
+
+                        conditions.Add($"{keys[j]} = {value}");
+                    }
+
+                    // Join the conditions using "AND" and build the final query
+                    checkQuery = $"SELECT TOP 1 {string.Join(", ", keys)} FROM {dbTableName} WHERE {string.Join(" AND ", conditions)}";
+                    QueryList.Add(checkQuery);
+                    //Console.Write($"{checkQuery}\n");
+                }
 
 
-                //Console.WriteLine();
+                Console.WriteLine();
 
 
-                //Console.WriteLine();
-                //foreach(var query in QueryList)
-                //{
-                //    Console.WriteLine(query);
-                //}
+                Console.WriteLine();
+                foreach (var query in QueryList)
+                {
+                    Console.WriteLine(query);
+                }
                 #endregion
 
             }
@@ -303,7 +312,6 @@ namespace QueryResult.Controller
                 throw new Exception(ex.Message);
             }
         }
-
         public void InsertDataToSPList(string listName)
         {
             try
@@ -319,7 +327,19 @@ namespace QueryResult.Controller
                 throw new Exception(ex.Message);
             }
         }
-
+        public void CheckDataExists1(string dbTableName)
+        {
+            try
+            {
+                db.OpenConnection(ref conn);
+                db.cmd.CommandText = $"SELECT TOP 1 * FROM {dbTableName} WHERE ";
+            }
+            catch (Exception ex)
+            {
+                db.CloseConnection(ref conn);
+                throw new Exception(ex.Message);
+            }
+        }
         public bool CheckDataExists(string table, string column, string value)
         {
             bool output = false;
@@ -356,7 +376,7 @@ namespace QueryResult.Controller
         {
             try
             {
-                List<string> keys = new List<string> { "CategoryName", "ConversionUOM"};
+                List<string> keys = GetStagingColumns(listName);
                 string query = $"SELECT DISTINCT {string.Join(", ", keys)} FROM Sambu_Staging_RSUP.Mst.item";
                 List<Dictionary<string, object>> results = new();
 
@@ -379,21 +399,62 @@ namespace QueryResult.Controller
                 db.CloseConnection(ref conn);
                 db.CloseDataReader(reader);
 
-                foreach(var row in results)
+                //foreach (var row in results)
+                //{
+                //    foreach (var kvp in row)
+                //    {
+                //        Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+                //    }
+                //    Console.WriteLine("---------------");
+                //}
+
+                for (int i = 0; i < results.Count; i++)
                 {
-                    foreach(var kvp in row)
+                    Dictionary<string, object> row = results[i];
+
+                    for (int j = 0; j < keys.Count; j++)
                     {
-                        Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+                        string key = keys[j];
+                        object value = row[key];
+                        Console.WriteLine($"myItem[\"{key}\"] = \"{value}\";");
                     }
+                    Console.WriteLine("myItem.Update();");
                     Console.WriteLine("---------------");
                 }
+
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 db.CloseConnection(ref conn);
                 throw new Exception(ex.Message);
             }            
+        }
+        public bool CheckIfHasSPList(string dbTableName)
+        {
+            try
+            {
+                db.OpenConnection(ref conn);
+                db.cmd.CommandText = $"SELECT TOP 1 HasSPList FROM Sambu_Master.dbo.MappingStaging WHERE DBTableName = '{dbTableName}'";
+                db.cmd.CommandType = CommandType.Text;
+
+                reader = db.cmd.ExecuteReader();
+                bool hasList = false;
+                while(reader.Read())
+                {
+                    hasList = reader.GetBoolean(0);
+                }
+                db.CloseConnection(ref conn);
+                db.CloseDataReader(reader);
+
+                Console.WriteLine($"Table {dbTableName} Has SP List ? : {hasList}");
+                return hasList;
+            }
+            catch(Exception ex)
+            {
+                db.CloseConnection(ref conn);
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
