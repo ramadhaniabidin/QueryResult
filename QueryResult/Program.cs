@@ -17,7 +17,7 @@ internal class Program
         testingController.TestAction();
 
 
-        //action.TestingQuery(listName);
+        //action.GetDataFromStaging1(listName);
 
 
     }

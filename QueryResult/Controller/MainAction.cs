@@ -280,6 +280,13 @@ namespace QueryResult.Controller
                         {
                             value = ($"'{dic[keys[j]]}'");
                         }
+                        else if ((dic[keys[j]] is decimal) || (dic[keys[j]] is float))
+                        {
+                            value = dic[keys[j]];
+                            string? stringValue = value.ToString();
+                            stringValue = stringValue.Replace(",", ".");
+                            value = stringValue;
+                        }
                         else
                         {
                             value = dic[keys[j]];
